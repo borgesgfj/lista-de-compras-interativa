@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Compras Web</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <h1>Sua Lista de Compras</h1>
+
+    <div id="inputField">
+      <div id="inputElements">
+        <label for="input_item">Item:</label><input type="text" name="input_item" id="input_item" placeholder="Insira um item a sua lista">
+        <label for="input_qtty">Qtd.:</label><input type="number" name="input_qtty" id="input_qtty" min="0" size="4">
+        <button type="button" id="btnAdd" onclick="addRowsAndColumsElements('listTable')">Adicionar item</button>
+    </div>
+    </div>
+
+    <div id="listArea">
+      <div id="listField">
+        <table id="listTable">
+          <!-- <caption> Lista de Compras</caption> -->
+          <tr>
+            <th id="headCell_item">Item</th>
+            <th id="headCell_qtty" colspan="2">Qtde.</th>
+            <th id="headCell_btn"></th>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+
+  </body>
+</html>

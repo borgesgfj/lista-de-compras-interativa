@@ -1,0 +1,162 @@
+@charset "UTF-8";
+
+body {
+  background-color: #973C6C;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body h1 {
+  display: block;
+  text-align: center;
+  font: normal 20pt Arial;
+  color: beige;
+}
+
+div#inputField {
+  display: block;
+  background-color: #f45920b7 ;
+  width: 1080px;
+  height: 70px;
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: 0.5s;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+div#inputField:hover {
+  background-color: #f45720 ;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+  
+}
+
+div#inputField div#inputElements {
+  display: block;
+  position: relative;
+  margin: 10px 30px 10px 30px;
+}
+
+label {
+  font-size: 16pt;
+  padding: 5px;
+  margin: 5px;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+
+input#input_item {
+  margin: 5px;
+  width: 550px;
+  height: 20px;
+  padding: 10px;
+  font-size: 15pt;
+  background-color: rgb(235, 229, 229);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+input#input_qtty {
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 20px;
+  width: 60px;
+  padding: 10px;
+  font-size: 15pt;
+  background-color: rgb(235, 229, 229);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+button#btnAdd {
+  background-color: #88b04bd0;
+  margin-left: 50px;
+  width: 110px;
+  height: 40px;
+  padding: 5px auto 5px auto;
+  font-size: 10pt;
+  color: antiquewhite;
+  border: 1px solid white;
+  transition: 0.5s;
+}
+
+button#btnAdd:hover {
+  background-color: #88b04b;
+  color: black;
+  font-weight: bold;
+  border: rgb(78, 253, 87);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+div#listArea {
+  display: block;
+  width: 1080px;
+  height: 1000px;
+  background-color: #fdb6cc;
+  margin: 5px auto 10px auto;
+  padding: 10px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.70);
+  transition: 0.5s;
+}
+
+div#listArea:hover {
+  background-color: #eba4ba;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.70);
+}
+
+div#listField {
+  display: block;
+  width: 1070px;
+  background-color: rgb(247, 247, 247);
+  margin: 25px auto 10px auto;
+}
+
+table#listTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+table#listTable th#headCell_qtty {
+  border: 1px solid rgb(204, 195, 195);
+  border-right: none;
+  padding: 5px;
+  padding-left: 30px;
+  margin-right: 2px;
+  width: 50px;
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+table#listTable th#headCell_item {
+  border: 1px solid rgb(204, 195, 195);
+  padding: 10px;
+  width: 800px;
+  border-right: none;
+}
+
+table#listTable th#headCell_btn {
+  border: 1px solid rgb(204, 195, 195);
+  padding: 15px;
+  width: 50px;
+  border-left: none;
+}
+
+.cQttyCells {
+  text-align: center;
+  font: normal 18pt Arial;
+  border-right: none;
+  border-left: none;
+  padding-left: 30px;
+  margin-right: 10px;
+}
+
+.cItensCell {
+  padding: 5px 5px 2px 90px;
+  border-right: none;
+  font: normal 18pt Arial;
+}
+
+.cDeleteCell {
+  padding: 5px 5px 2px 5px;
+  border-left: none;
+  text-align: center;
+}
