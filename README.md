@@ -13,5 +13,6 @@ Na primeira versão foram trabalhados elementos básicos do projeto, como a cria
 A primiera versão ainda não paresenta resposnividade e também não possui validação de entradas nulas ou repetidas. Os dados gerados pelo usuário também não serão salvos em um branco de dados.
 Estas características serão trabalhadas nas próximas versões da lista.
 
-##Link para acessar gitpage do projeto:
+## Link para acessar gitpage do projeto:
+
 https://borgesgfj.github.io/lista-de-compras-interativa/
