@@ -18,7 +18,8 @@ function addRowsAndColumsElements(tableID) {
   //Definig elements cell 2 ellements
   const del_button = document.createElement("button")
   del_button.type = "button"
-  del_button.innerHTML = "Excluir Item"
+  del_button.innerHTML = "X"
+  del_button.className = "cDelBtn"
   del_button.onclick = function(){deleteRow(this)}
   cell_delete.appendChild(del_button)
 }
