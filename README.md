@@ -12,3 +12,6 @@ O objetivo é entregar ao final do projeto uma lista de compras com estética ag
 Na primeira versão foram trabalhados elementos básicos do projeto, como a criação da tabela dinâmica com os campos item, quantidade e botão "delete".
 A primiera versão ainda não paresenta resposnividade e também não possui validação de entradas nulas ou repetidas. Os dados gerados pelo usuário também não serão salvos em um branco de dados.
 Estas características serão trabalhadas nas próximas versões da lista.
+
+##Link para acessar gitpage do projeto:
+https://borgesgfj.github.io/lista-de-compras-interativa/
