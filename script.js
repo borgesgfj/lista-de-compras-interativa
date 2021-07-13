@@ -28,3 +28,7 @@ function deleteRow(rowToBeDeleted) {
   const indexOfRow = rowToBeDeleted.parentNode.parentNode.rowIndex
   document.getElementById("listTable").deleteRow(indexOfRow)
 }
+// Só para descobrir o tamanho da janela. (teste para responisvidade)
+/*   let w = window.innerWidth;
+  let h = window.innerHeight;
+  document.getElementById("demo").innerHTML = "Width: " + w + "<br>Height: " + h; */
