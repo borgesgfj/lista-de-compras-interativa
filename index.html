@@ -9,15 +9,14 @@
   </head>
 
   <body>
+    <!-- <p id="demo"> </p> -->
+  <div class="main-container">
     <h1>Sua Lista de Compras</h1>
-
-    <div id="inputField">
-      <div id="inputElements">
-        <label for="input_item">Item:</label><input type="text" name="input_item" id="input_item" placeholder="Insira um item a sua lista">
-        <label for="input_qtty">Qtd.:</label><input type="number" name="input_qtty" id="input_qtty" min="0" size="4">
-        <button type="button" id="btnAdd" onclick="addRowsAndColumsElements('listTable')">Adicionar item</button>
-    </div>
-    </div>
+      <div id="inputField">
+          <label for="input_item">Item:</label><input type="text" name="input_item" id="input_item" placeholder="Insira um item a sua lista">
+          <label for="input_qtty">Qtd.:</label><input type="number" name="input_qtty" id="input_qtty" min="0" size="4">
+          <button type="button" id="btnAdd" onclick="addRowsAndColumsElements('listTable')">Adicionar item</button>
+      </div>
 
     <div id="listArea">
       <div id="listField">
@@ -31,8 +30,7 @@
         </table>
       </div>
     </div>
-
     <script src="script.js"></script>
-
+  </div>
   </body>
 </html>
