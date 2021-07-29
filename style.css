@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Italiana&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400;700&display=swap");
 
-
 body {
   background-color: #b1447e;
   font-family: "Roboto Mono", monospace;
@@ -20,11 +19,27 @@ div#inputField {
   background-color: #f45920b7;
   transition: 0.5s;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+  min-width: 400px;
 }
-
 div#inputField:hover {
   background-color: #f45720;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+#btnAdd {
+  opacity: 0.7;
+  transition: 0.5s;
+}
+#btnAdd:hover{
+  opacity: 1;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+#addIcon {
+  font-size: 1.5em;
 }
 
 #input_qtty {
@@ -32,17 +47,12 @@ max-width: 5em;
 min-width: 5em;
 }
 
-/* .main-container div#listArea {
-  flex-basis: 81%;
-  justify-content: center;
-} */
-
 div#listArea {
   background-color: #262d3dd7;
   box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.7);
+  min-width: 400px;
   transition: 0.5s;
 }
-
 div#listArea:hover {
   background-color: #414d68;
   box-shadow: 3px 1px 4px rgba(0, 0, 0, 0.7);
@@ -52,98 +62,54 @@ div#listField {
   display: block;
   background-color: rgb(247, 247, 247);
   margin: 10px;
+  min-width: 365px;
 }
 
-table#listTable {
-  width: 100%;
-  border-collapse: collapse;
+table#listTable{
+  min-width: 364px;
 }
-
-tr:nth-child(even) {
-  background-color: #cecece;
-}
-
-tr:hover {
-  background-color: rgb(128, 125, 125);
-  transition: 0.5s;
-}
-
 tr#tableHeader {
-  background-color: rgb(115, 131, 148);
+  border: 1px solid rgb(204, 195, 195);
   font-size: 1.4em;
   font-family: "Roboto Mono", monospace;
   font-weight: bold;
-  color: rgb(255, 255, 255);
 }
 
 table#listTable th#headCell_qtty {
-  border: 1px solid rgb(204, 195, 195);
-  border-right: none;
-  padding: 5px;
-  padding-left: 30px;
-  margin-right: 2px;
-  flex-basis: 10%;
-  text-align: left;
+  text-align: center;
+  width: 15%;
 }
 
 table#listTable th#headCell_item {
-  border: 1px solid rgb(204, 195, 195);
-  padding: 10px;
-  width: 800px;
-  border-right: none;
+  width: 80%;
 }
 
-table#listTable th#headCell_btn {
-  border: 1px solid rgb(204, 195, 195);
-  padding: 15px;
-  width: 50px;
-  border-left: none;
-}
-
-.cQttyCells {
-  text-align: center;
-  font-family: "Roboto Mono", monospace;
-  font-size: 15pt;
-  border-right: none;
-  border-left: none;
-  padding-left: 30px;
-  margin-right: 10px;
-}
-
-.cItensCell {
-  padding: 5px 5px 2px 90px;
-  border-right: none;
-  font-family: "Roboto Mono", monospace;
+tbody {
   font-size: 15pt;
 }
 
-.cDeleteCell {
-  padding: 5px 5px 2px 5px;
-  border-left: none;
+#qttyCells {
   text-align: center;
-  width: 60px;
+  width: 15%;
 }
 
-button.cDelBtn {
+#itensCell {
+  width: 80%;
+}
+
+#delIcon {
+  font-size: 1.5em;
+  font-weight: bolder;
+}
+button#delBtn {
   opacity: 0.3;
-  background-color: rgb(206, 45, 45);
   width: 50px;
   height: 30px;
-  font-size: 15pt;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  margin-left: 30px;
   transition: 0.5s;
 }
-
-button.cDelBtn:hover {
+button#delBtn:hover {
   opacity: 1;
   background-color: rgb(236, 16, 16);
-  font-weight: bolder;
   border: 1px solid red;
-  border-radius: 12px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
