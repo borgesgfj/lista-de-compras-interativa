@@ -2,12 +2,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Italiana&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400;700&display=swap");
 
+
 body {
   background-color: #b1447e;
   font-family: "Roboto Mono", monospace;
 }
 body h1 {
-  display: flex;
   text-align: center;
   font-size: 3rem;
   font-family: "Italiana", serif;
@@ -16,28 +16,8 @@ body h1 {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
 }
 
-.main-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.main-container div#inputField {
-  flex-basis: 81%;
-}
-
-#inputField {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-}
-
 div#inputField {
   background-color: #f45920b7;
-  padding: 20px 10px 20px 10px;
-  margin-top: -10px;
   transition: 0.5s;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
 }
@@ -47,80 +27,18 @@ div#inputField:hover {
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
 
-.inputItemAndLabel {
-  display: flex;
-  flex-flow: row;
-  flex-basis: 70%;
-  flex-shrink: 8;
-  margin-top: 0.5%;
-  padding: 2px;
-}
-
-.inputQttyLabelAndBtn {
-  display: flex;
-  flex-flow: row;
-  align-content: center;
-  margin-top: 0.5%;
-  padding: 2px;
-}
-
-label {
-  font-size: 1.5rem;
-  padding: 5px;
-  color: white;
-  font-family: "Roboto Mono", monospace;
-  font-weight: bold;
-}
-
-input{
-  padding: 5px;
-  margin-left: 5px;
-  font-size: 15pt;
-  background-color: rgb(235, 229, 229);
-  border: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-#input_item {
-  flex: 2 2 0;
-}
-
 #input_qtty {
-width: 3em;
-flex-shrink: 2;
-flex-grow: 2;
-margin-top: 5px;
+max-width: 5em;
+min-width: 5em;
 }
 
-button#btnAdd {
-  background-color: #88b04bd0;
-  border-radius: 10px;
-  padding: 5px auto 5px auto;
-  margin: 10px;
-  font-size: 80%;
-  font-family: "Roboto Mono", monospace;
-  color: antiquewhite;
-  border: 1px solid white;
-  transition: 1s;
-}
-
-button#btnAdd:hover {
-  background-color: #88b04b;
-  color: black;
-  font-weight: bold;
-  border: rgb(78, 253, 87);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-.main-container div#listArea {
+/* .main-container div#listArea {
   flex-basis: 81%;
   justify-content: center;
-}
+} */
 
 div#listArea {
-  display: flex;
   background-color: #262d3dd7;
-  margin: 5px auto 10px auto;
-  padding: 20px 10px 20px 10px;
   box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.7);
   transition: 0.5s;
 }
