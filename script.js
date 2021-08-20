@@ -1,37 +1,93 @@
-function addRowsAndColumsElements(tableID) {
-  const table = document.getElementById(tableID)
-  const newRow = table.tBodies[0].insertRow(-1)
-  const cell_itens = newRow.insertCell(0)
-  cell_itens.id = "itensCell"
-  const cell_qtty = newRow.insertCell(1)
-  cell_qtty.className = "align-middle"
-  cell_qtty.id = "qttyCells"
-  const cell_delete = newRow.insertCell(2)
-  cell_delete.id = "deleteCell"
-  cell_delete.className = "align-middle"
-  //Definig elements cell 0 ellements
-  let qtty = document.getElementById("input_qtty").value
-  cell_qtty.innerHTML = qtty
-  //Definig elements cell 1 ellements
-  let item = document.getElementById("input_item").value
-  cell_itens.innerHTML = item
-  document.getElementById("input_qtty").value = ""
-  document.getElementById("input_item").value = ""
-  //Definig elements cell 2 ellements
-  const del_button = document.createElement("button")
-  const del_icon = document.createElement("span")
-  del_icon.id = "delIcon"
-  del_icon.className = "bi bi-journal-x"
-  del_button.appendChild(del_icon)
-  del_button.type = "button"
-  del_button.className = "btn btn-danger d-flex align-items-center justify-content-center"
-  del_button.id = "delBtn"
-  del_button.onclick = function(){deleteRow(this)}
-  cell_delete.appendChild(del_button)
+const addButton = document.getElementById("btnAdd")
+addButton.disabled = true
+const qtty = document.getElementById("inputQtty")
+qtty.value = "1"
+document.getElementById("inputItem").addEventListener("change", validatEmptyInputs)
+document.getElementById("inputItem").addEventListener("change", validatDuplictdItem)
+
+function validatEmptyInputs () {
+  const item = document.getElementById("inputItem").value
+  if (item.trim() === ""){
+    addButton.disabled = true
+  }else {
+    addButton.disabled = false
+  }
 }
 
+function validatDuplictdItem() {
+  const table = document.getElementById('listTable')
+  const numOfRows = table.rows.length
+  const item = document.getElementById("inputItem").value
+  for (let i = 1; i < numOfRows; i++ ) {
+    const cellText = table.rows[i].cells.item(0).innerHTML
+    if (cellText.trim() == item.trim()) {
+      addButton.disabled = true
+    }
+  }
+}
+
+function AddElementToList (funcCreatRow, funcAddItem, funcAddQtty, funcCreatCellDel, funcCreatCellEdit, tableReference) {
+  const newRowIndex = funcCreatRow(tableReference).rowIndex
+  const currentRowRef = document.getElementById(tableReference).rows[newRowIndex]
+  funcAddItem(currentRowRef)
+  funcAddQtty(currentRowRef)
+  funcCreatCellDel(currentRowRef)
+  funcCreatCellEdit(currentRowRef)
+  addButton.disabled = true
+  const numOfRows = document.getElementById(tableReference).rows.length
+  console.log(numOfRows)
+  console.log(newRowIndex)
+  console.log(validatDuplictdItem())
+}
+
+function insertNewRow (tableID) {
+  const table = document.getElementById(tableID)
+  const newRow = table.tBodies[0].insertRow(-1)
+  return newRow
+}
+function writeItemOnTable (rowReference){
+  const cellOfitens = rowReference.insertCell(0)
+  const itemText = document.getElementById("inputItem").value
+  cellOfitens.id = "intensCell"
+  cellOfitens.innerHTML = itemText
+  document.getElementById("inputItem").value = ""
+}
+function writeQttyOnTable (rowReference) {
+  const cellOfQtty = rowReference.insertCell()
+  const qttyText = document.getElementById("inputQtty").value
+  cellOfQtty.className = "align-middle"
+  cellOfQtty.id = "qttyCells"
+  cellOfQtty.innerHTML = qttyText
+  document.getElementById("inputQtty").value = "1"
+}
+function createDeltBttn (rowReference) {
+  const cellDelete = rowReference.insertCell()
+  const delBtn = document.createElement("button")
+  const delIcon = document.createElement("span")
+  cellDelete.id = "deleteCell"
+  cellDelete.className = "align-middle"
+  delIcon.id = "delIcon"
+  delIcon.className = "bi bi-journal-x"
+  delBtn.appendChild(delIcon)
+  delBtn.type = "button"
+  delBtn.className = "btn btn-danger d-flex align-items-center justify-content-center"
+  delBtn.id = "delBtn"
+  delBtn.onclick = function(){deleteRow(this)}
+  cellDelete.appendChild(delBtn)
+}
 function deleteRow(rowToBeDeleted) {
   const indexOfRow = rowToBeDeleted.parentNode.parentNode.rowIndex
   document.getElementById("listTable").deleteRow(indexOfRow)
 }
+function createEditBttn (rowReference) {
+  const cellEdit = rowReference.insertCell()
+  cellEdit.id = "editCell"
+  cellEdit.className = "align-middle"
+  return cellEdit
+}
+
+
+
+
+
 
