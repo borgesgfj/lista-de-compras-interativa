@@ -3,18 +3,14 @@ addButton.disabled = true
 const qtty = document.getElementById("inputQtty")
 qtty.value = "1"
 document.getElementById("inputItem").addEventListener("change", validatEmptyInputs)
-document.getElementById("inputItem").addEventListener("change", validatDuplictdItem)
+document.getElementById("inputItem").addEventListener("change", validateDuplicatedItem)
 
 function validatEmptyInputs () {
   const item = document.getElementById("inputItem").value
-  if (item.trim() === ""){
-    addButton.disabled = true
-  }else {
-    addButton.disabled = false
-  }
+  addButton.disabled = item.trim() === ""
 }
 
-function validatDuplictdItem() {
+function validateDuplicatedItem() {
   const table = document.getElementById('listTable')
   const numOfRows = table.rows.length
   const item = document.getElementById("inputItem").value
@@ -22,22 +18,19 @@ function validatDuplictdItem() {
     const cellText = table.rows[i].cells.item(0).innerHTML
     if (cellText.trim() == item.trim()) {
       addButton.disabled = true
+      break
     }
   }
 }
 
-function AddElementToList (funcCreatRow, funcAddItem, funcAddQtty, funcCreatCellDel, funcCreatCellEdit, tableReference) {
-  const newRowIndex = funcCreatRow(tableReference).rowIndex
+function addElementToList (tableReference) {
+  const newRowIndex = insertNewRow(tableReference).rowIndex
   const currentRowRef = document.getElementById(tableReference).rows[newRowIndex]
-  funcAddItem(currentRowRef)
-  funcAddQtty(currentRowRef)
-  funcCreatCellDel(currentRowRef)
-  funcCreatCellEdit(currentRowRef)
+  writeItemOnTable(currentRowRef)
+  writeQttyOnTable(currentRowRef)
+  createDeltBttn(currentRowRef)
+  createEditBttn(currentRowRef)
   addButton.disabled = true
-  const numOfRows = document.getElementById(tableReference).rows.length
-  console.log(numOfRows)
-  console.log(newRowIndex)
-  console.log(validatDuplictdItem())
 }
 
 function insertNewRow (tableID) {
@@ -83,7 +76,6 @@ function createEditBttn (rowReference) {
   const cellEdit = rowReference.insertCell()
   cellEdit.id = "editCell"
   cellEdit.className = "align-middle"
-  return cellEdit
 }
 
 
