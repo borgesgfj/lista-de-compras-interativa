@@ -1,15 +1,15 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Italiana&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400;700&display=swap');
 
 body {
   background-color: #b1447e;
-  font-family: "Roboto Mono", monospace;
+  font-family: 'Roboto Mono', monospace;
 }
 body h1 {
   text-align: center;
   font-size: 3rem;
-  font-family: "Italiana", serif;
+  font-family: 'Italiana', serif;
   font-weight: bolder;
   color: beige;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
@@ -34,7 +34,7 @@ div#inputField:hover {
   opacity: 0.7;
   transition: 0.5s;
 }
-#btnAdd:hover{
+#btnAdd:hover {
   opacity: 1;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
@@ -43,8 +43,8 @@ div#inputField:hover {
 }
 
 #inputQtty {
-max-width: 5em;
-min-width: 5em;
+  max-width: 5em;
+  min-width: 5em;
 }
 
 div#listArea {
@@ -65,13 +65,13 @@ div#listField {
   min-width: 365px;
 }
 
-table#listTable{
+table#listTable {
   min-width: 364px;
 }
 tr#tableHeader {
   border: 1px solid rgb(204, 195, 195);
   font-size: 1.4em;
-  font-family: "Roboto Mono", monospace;
+  font-family: 'Roboto Mono', monospace;
   font-weight: bold;
 }
 
