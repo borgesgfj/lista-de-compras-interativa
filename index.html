@@ -25,8 +25,8 @@
             <input
               type="text"
               class="form-control"
-              name="input_item"
-              id="input_item"
+              name="inputItem"
+              id="inputItem"
               placeholder="Insira um item a sua lista"
             />
           </div>
@@ -37,17 +37,18 @@
             <input
               type="number"
               class="form-control"
-              name="input_qtty"
-              id="input_qtty"
-              min="0"
+              name="inputQtty"
+              id="inputQtty"
+              min="1"
               size="4"
+              value="1"
             />
           </div>
           <button
           type="button"
           class="btn btn-success btn-sm ms-2"
           id="btnAdd"
-          onclick="addRowsAndColumsElements('listTable')"
+          onclick="addElementToList('listTable')"
           >
             <span class="bi bi-bag-plus-fill" id="addIcon"></span>
             Adicionar
@@ -61,9 +62,10 @@
         <table class="table table-borderless table-striped table-hover" id="listTable">
           <thead class="table-dark">
             <tr id="tableHeader">
-              <th id="headCell_item">Item</th>
-              <th id="headCell_qtty">Qtde.</th>
-              <th id="headCell_btn"></th>
+              <th id="headCellItem">Item</th>
+              <th id="headCellQtty">Qtde.</th>
+              <th id="headCellDelBtn"></th>
+              <th id="headCellEditBtn"></th>
             </tr>
           </thead>
           <tbody> </tbody>

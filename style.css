@@ -42,7 +42,7 @@ div#inputField:hover {
   font-size: 1.5em;
 }
 
-#input_qtty {
+#inputQtty {
 max-width: 5em;
 min-width: 5em;
 }
@@ -75,13 +75,13 @@ tr#tableHeader {
   font-weight: bold;
 }
 
-table#listTable th#headCell_qtty {
+table#listTable th#headCellQtty {
   text-align: center;
-  width: 15%;
+  width: 10%;
 }
 
-table#listTable th#headCell_item {
-  width: 80%;
+table#listTable th#headCellItem {
+  width: 75%;
 }
 
 tbody {
