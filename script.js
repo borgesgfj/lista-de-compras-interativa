@@ -1,33 +1,32 @@
 const addButton = document.getElementById('btnAdd');
+const arrayOfItems = [];
 addButton.disabled = true;
 const qtty = document.getElementById('inputQtty');
 qtty.value = '1';
-document.getElementById('inputItem').addEventListener('change', validatEmptyInputs);
-document.getElementById('inputItem').addEventListener('change', validateDuplicatedItem);
-
 function validatEmptyInputs() {
   const item = document.getElementById('inputItem').value;
   addButton.disabled = item.trim() === '';
 }
+document.getElementById('inputItem').addEventListener('change', validatEmptyInputs);
 
 function validateDuplicatedItem() {
-  const table = document.getElementById('listTable');
-  const numOfRows = table.rows.length;
-  const item = document.getElementById('inputItem').value;
-  for (let i = 1; i < numOfRows; i++) {
-    const cellText = table.rows[i].cells.item(0).innerHTML;
-    if (cellText.trim() == item.trim()) {
-      addButton.disabled = true;
-      break;
-    }
-  }
+  const newItem = document.getElementById('inputItem').value.trim();
+  addButton.disabled = arrayOfItems.some(registeredItem => registeredItem.item === newItem )
 }
+document.getElementById('inputItem').addEventListener('change', validateDuplicatedItem);
 
-function addElementToList(tableReference) {
+function addElement(tableReference) {
+  const newProduct = {
+    item: document.getElementById('inputItem').value.trim(),
+    itemDescription: document.getElementById('inputItemDescription').value.trim(),
+    quantity: document.getElementById('inputQtty').value,
+    unity: document.getElementById('selectUnity').value,
+  };
+  arrayOfItems.push(newProduct);
   const newRowIndex = insertNewRow(tableReference).rowIndex;
   const currentRowRef = document.getElementById(tableReference).rows[newRowIndex];
-  writeItemOnTable(currentRowRef);
-  writeQttyOnTable(currentRowRef);
+  writeItemOnTable(currentRowRef, newProduct.item, newProduct.itemDescription);
+  writeQttyOnTable(currentRowRef, newProduct.quantity, newProduct.unity);
   createDeltBttn(currentRowRef);
   createEditBttn(currentRowRef);
   addButton.disabled = true;
@@ -38,20 +37,20 @@ function insertNewRow(tableID) {
   const newRow = table.tBodies[0].insertRow(-1);
   return newRow;
 }
-function writeItemOnTable(rowReference) {
+function writeItemOnTable(rowReference, itemName, descripionOfItem) {
   const cellOfitens = rowReference.insertCell(0);
-  const itemText = document.getElementById('inputItem').value;
   cellOfitens.id = 'intensCell';
-  cellOfitens.innerHTML = itemText;
+  cellOfitens.innerHTML = `<p>${itemName} </p> <p class="itemsDescription" > ${descripionOfItem} </p> `;
   document.getElementById('inputItem').value = '';
+  document.getElementById('inputItemDescription').value = '';
 }
-function writeQttyOnTable(rowReference) {
+function writeQttyOnTable(rowReference, qtty, unitySymbol) {
   const cellOfQtty = rowReference.insertCell();
-  const qttyText = document.getElementById('inputQtty').value;
   cellOfQtty.className = 'align-middle';
   cellOfQtty.id = 'qttyCells';
-  cellOfQtty.innerHTML = qttyText;
+  cellOfQtty.innerHTML = `${qtty} ${unitySymbol}`;
   document.getElementById('inputQtty').value = '1';
+  document.getElementById('selectUnity').value = 'un.';
 }
 function createDeltBttn(rowReference) {
   const cellDelete = rowReference.insertCell();
@@ -66,13 +65,15 @@ function createDeltBttn(rowReference) {
   delBtn.className = 'btn btn-danger d-flex align-items-center justify-content-center';
   delBtn.id = 'delBtn';
   delBtn.onclick = function () {
-    deleteRow(this);
+    removeItem(this);
   };
   cellDelete.appendChild(delBtn);
 }
-function deleteRow(rowToBeDeleted) {
-  const indexOfRow = rowToBeDeleted.parentNode.parentNode.rowIndex;
+
+function removeItem(deleteBtnReference) {
+  const indexOfRow = deleteBtnReference.parentNode.parentNode.rowIndex;
   document.getElementById('listTable').deleteRow(indexOfRow);
+  arrayOfItems.splice(indexOfRow - 1, 1);
 }
 function createEditBttn(rowReference) {
   const cellEdit = rowReference.insertCell();

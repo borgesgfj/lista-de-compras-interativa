@@ -22,19 +22,7 @@
     <h1>Sua Lista de Compras</h1>
     <div class="container mt-3 mb-3 p-3" id="inputField">
       <div class="row">
-        <div class="col-lg-8 d-inline-flex mb-3 mt-3 ps-4">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text" id="input-item-label">Item</span>
-            <input
-              type="text"
-              class="form-control"
-              name="inputItem"
-              id="inputItem"
-              placeholder="Insira um item a sua lista"
-            />
-          </div>
-        </div>
-        <div class="col-lg-4 d-inline-flex justify-content-around mb-3 mt-3 ps-4" id="QttyAndBtn">
+        <div class="col-xl-4 d-inline-flex justify-content-around align-items-center mb-3 mt-3 ps-4" id="QttyAndUnity">
           <div class="input-group input-group-lg flex-nowrap">
             <span class="input-group-text" id="input-qtty-label">Qtd.</span>
             <input
@@ -46,16 +34,50 @@
               size="4"
               value="1"
             />
+            <div class="form-floating">
+              <select
+                class="form-select form-select-lg px-3"
+                id="selectUnity"
+                aria-label="Unidades"
+              >
+                <option selected value="un.">Unidade</option>
+                <option value="kg">Kilograma</option>
+                <option value="g">grama</option>
+                <option value="Duz">Dúzia</option>
+                <option value="1/2 Duz">Meia dúzia</option>
+              </select>
+              <label for="floatingSelect">Unidades</label>
+            </div>
           </div>
-          <button
-            type="button"
-            class="btn btn-success btn-sm ms-2"
-            id="btnAdd"
-            onclick="addElementToList('listTable')"
-          >
-            <span class="bi bi-bag-plus-fill" id="addIcon"></span>
-            Adicionar
-          </button>
+        </div>
+        <div class="col-xl-8 d-flex flex-column mb-3 mt-3 ps-4">
+          <div class="input-group input-group-lg">
+            <input
+              type="text"
+              class="form-control"
+              name="inputItem"
+              id="inputItem"
+              placeholder="Item"
+            />
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              id="btnAdd"
+              onclick="addElement('listTable')"
+            >
+              <span class="bi bi-bag-plus-fill" id="addIcon"></span>
+              Adicionar
+            </button>
+          </div>
+          <div class="input-group input-group-sm ms-2 mt-1">
+            <input
+              type="text"
+              class="form-control"
+              name="inputItemDescription"
+              id="inputItemDescription"
+              placeholder="Descrição do Item (Ex: Embalagem de 2l; Pacote 5kg; pack c/ 12...)"
+            />
+          </div>
         </div>
       </div>
     </div>

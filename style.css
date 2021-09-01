@@ -25,12 +25,28 @@ div#inputField:hover {
   background-color: #f45720;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
+#inputItemDescription {
+  font-size: smaller;
+  height: 3.5em;
+  max-width: 85%;
+  border-radius: 0px;
+}
+.itemsDescription {
+  margin-top: -1.5em;
+  margin-bottom: -1.5em;
+  font-size: 0.75em;
+  font-style: italic;
+  text-indent: 1em;
+}
 
 .btn:focus {
   outline: none;
   box-shadow: none;
 }
 #btnAdd {
+  width: min-content;
+  font-size:smaller;
+  text-align: center;
   opacity: 0.7;
   transition: 0.5s;
 }
@@ -43,8 +59,18 @@ div#inputField:hover {
 }
 
 #inputQtty {
-  max-width: 5em;
-  min-width: 5em;
+  max-width: 6em;
+  min-width: 6em;
+  border-right: 0px;
+}
+#selectUnity {
+  max-width: 9em;
+  min-width: 9em;
+  height: 5.1em;
+  font-size: smaller;
+  border-left: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 div#listArea {
@@ -87,7 +113,11 @@ table#listTable th#headCellItem {
 tbody {
   font-size: 15pt;
 }
-
+table#listTable tr {
+  line-height: 1.5rem;
+  min-height: 3rem;
+  height: 3rem;
+}
 #qttyCells {
   text-align: center;
   width: 15%;
