@@ -11,7 +11,7 @@ document.getElementById('inputItem').addEventListener('change', validatEmptyInpu
 
 function validateDuplicatedItem() {
   const newItem = document.getElementById('inputItem').value.trim();
-  addButton.disabled = arrayOfItems.some(registeredItem => registeredItem.item === newItem )
+  addButton.disabled = arrayOfItems.some((registeredItem) => registeredItem.item === newItem);
 }
 document.getElementById('inputItem').addEventListener('change', validateDuplicatedItem);
 
@@ -21,6 +21,7 @@ function addElement(tableReference) {
     itemDescription: document.getElementById('inputItemDescription').value.trim(),
     quantity: document.getElementById('inputQtty').value,
     unity: document.getElementById('selectUnity').value,
+    acquired: false,
   };
   arrayOfItems.push(newProduct);
   const newRowIndex = insertNewRow(tableReference).rowIndex;
@@ -40,7 +41,15 @@ function insertNewRow(tableID) {
 function writeItemOnTable(rowReference, itemName, descripionOfItem) {
   const cellOfitens = rowReference.insertCell(0);
   cellOfitens.id = 'intensCell';
-  cellOfitens.innerHTML = `<p>${itemName} </p> <p class="itemsDescription" > ${descripionOfItem} </p> `;
+  cellOfitens.innerHTML = `<div class="tickContainer">
+    <div class="cellTextContent">
+      <p class="itemName">${itemName} <br/>
+        <span class="itemsDescription" >
+          ${descripionOfItem}
+        </span>
+      </p>
+    </div>
+  </div>`;
   document.getElementById('inputItem').value = '';
   document.getElementById('inputItemDescription').value = '';
 }
@@ -80,3 +89,17 @@ function createEditBttn(rowReference) {
   cellEdit.id = 'editCell';
   cellEdit.className = 'align-middle';
 }
+
+function markAcquiredItem(event) {
+  if (event.target.tagName == 'P') {
+    const outterCellContainer = event.target.parentNode.parentNode;
+    const cellOfQtty = event.target.parentNode.parentNode.parentNode.nextSibling;
+    const clickedRow = event.target.parentNode.parentNode.parentNode.parentNode;
+    const clickedRowIndex = clickedRow.rowIndex;
+    outterCellContainer.classList.toggle('tickContainerChecked');
+    clickedRow.classList.toggle('checkedRow');
+    cellOfQtty.classList.toggle('checkedTd');
+    arrayOfItems[clickedRowIndex - 1].acquired = clickedRow.className == 'checkedRow';
+  }
+}
+document.getElementById('listTable').addEventListener('click', markAcquiredItem);
