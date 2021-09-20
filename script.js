@@ -95,15 +95,11 @@ function markAcquiredItem(event) {
     const outterCellContainer = event.target.parentNode.parentNode;
     const cellOfQtty = event.target.parentNode.parentNode.parentNode.nextSibling;
     const clickedRow = event.target.parentNode.parentNode.parentNode.parentNode;
-    const clickedRowIndex = clickedRow.rowIndex
+    const clickedRowIndex = clickedRow.rowIndex;
     outterCellContainer.classList.toggle('tickContainerChecked');
     clickedRow.classList.toggle('checkedRow');
     cellOfQtty.classList.toggle('checkedTd');
-    if(clickedRow.className == 'checkedRow'){
-      arrayOfItems[clickedRowIndex -1].acquired = true
-    } else {
-      arrayOfItems[clickedRowIndex -1].acquired = false
-    }
+    arrayOfItems[clickedRowIndex - 1].acquired = clickedRow.className == 'checkedRow';
   }
 }
 document.getElementById('listTable').addEventListener('click', markAcquiredItem);

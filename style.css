@@ -51,7 +51,7 @@ div#inputField:hover {
 }
 #btnAdd {
   width: min-content;
-  font-size:smaller;
+  font-size: smaller;
   text-align: center;
   opacity: 0.7;
   transition: 0.5s;
@@ -147,7 +147,7 @@ button#delBtn:hover {
   color: white;
   text-decoration: line-through;
 }
-.tickContainerChecked::before{
+.tickContainerChecked::before {
   content: ' ';
   display: block;
   position: absolute;
