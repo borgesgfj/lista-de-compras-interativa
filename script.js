@@ -15,68 +15,151 @@ function validateDuplicatedItem() {
 }
 document.getElementById('inputItem').addEventListener('change', validateDuplicatedItem);
 
-function addElement(tableReference) {
+function addElement() {
   const newProduct = {
     item: document.getElementById('inputItem').value.trim(),
     itemDescription: document.getElementById('inputItemDescription').value.trim(),
     quantity: document.getElementById('inputQtty').value,
     unity: document.getElementById('selectUnity').value,
     acquired: false,
+    inEdition: false,
   };
   arrayOfItems.push(newProduct);
-  const newRowIndex = insertNewRow(tableReference).rowIndex;
-  const currentRowRef = document.getElementById(tableReference).rows[newRowIndex];
-  writeItemOnTable(currentRowRef, newProduct.item, newProduct.itemDescription);
-  writeQttyOnTable(currentRowRef, newProduct.quantity, newProduct.unity);
-  createDeltBttn(currentRowRef);
-  createEditBttn(currentRowRef);
+  createTable('listField');
+  buildRow('listTableBody');
   addButton.disabled = true;
-}
-
-function insertNewRow(tableID) {
-  const table = document.getElementById(tableID);
-  const newRow = table.tBodies[0].insertRow(-1);
-  return newRow;
-}
-function writeItemOnTable(rowReference, itemName, descripionOfItem) {
-  const cellOfitens = rowReference.insertCell(0);
-  cellOfitens.id = 'intensCell';
-  cellOfitens.innerHTML = `<div class="tickContainer">
-    <div class="cellTextContent">
-      <p class="itemName">${itemName} <br/>
-        <span class="itemsDescription" >
-          ${descripionOfItem}
-        </span>
-      </p>
-    </div>
-  </div>`;
   document.getElementById('inputItem').value = '';
   document.getElementById('inputItemDescription').value = '';
-}
-function writeQttyOnTable(rowReference, qtty, unitySymbol) {
-  const cellOfQtty = rowReference.insertCell();
-  cellOfQtty.className = 'align-middle';
-  cellOfQtty.id = 'qttyCells';
-  cellOfQtty.innerHTML = `${qtty} ${unitySymbol}`;
   document.getElementById('inputQtty').value = '1';
   document.getElementById('selectUnity').value = 'un.';
 }
-function createDeltBttn(rowReference) {
-  const cellDelete = rowReference.insertCell();
-  const delBtn = document.createElement('button');
-  const delIcon = document.createElement('span');
-  cellDelete.id = 'deleteCell';
-  cellDelete.className = 'align-middle';
-  delIcon.id = 'delIcon';
-  delIcon.className = 'bi bi-journal-x';
-  delBtn.appendChild(delIcon);
-  delBtn.type = 'button';
-  delBtn.className = 'btn btn-danger d-flex align-items-center justify-content-center';
-  delBtn.id = 'delBtn';
-  delBtn.onclick = function () {
-    removeItem(this);
-  };
-  cellDelete.appendChild(delBtn);
+
+function createTable(divId) {
+  document.getElementById(divId).innerHTML = `
+    <table class="table table-borderless table-striped table-hover" id="listTable">
+      <thead class="table-dark">
+        <tr id="tableHeader">
+          <th id="headCellItem">Item</th>
+          <th id="headCellQtty">Qtde.</th>
+          <th id="headCellDelBtn"></th>
+          <th id="headCellEditBtn"></th>
+        </tr>
+      </thead>
+      <tbody id="listTableBody">
+      </tbody>
+    </table>
+  `;
+}
+
+function buildRow(tableBodyId) {
+  const tableBody = document.getElementById(tableBodyId);
+  for (let i = 0; i < arrayOfItems.length; i++) {
+    if (!arrayOfItems[i].acquired && !arrayOfItems[i].inEdition) {
+      tableBody.innerHTML += `
+      <tr>
+        <td class="intensCell" onclick="markAcquiredItem(this.parentElement)">
+          ${writeItemOnTable(
+            arrayOfItems[i].item,
+            arrayOfItems[i].itemDescription,
+            arrayOfItems[i].acquired,
+            arrayOfItems[i].inEdition
+          )}
+        </td>
+        <td class="align-middle qttyCellStandard">
+          ${writeQttyOnTable(
+            arrayOfItems[i].quantity,
+            arrayOfItems[i].unity,
+            arrayOfItems[i].acquired,
+            arrayOfItems[i].inEdition
+          )}
+        </td>
+        <td class="align-middle">
+          ${createDeleteBtn()}
+        </td>
+        <td class="align-middle"> </td>
+      </tr>
+    `;
+    }
+    if (arrayOfItems[i].acquired && !arrayOfItems[i].inEdition) {
+      tableBody.innerHTML += `
+      <tr class="checkedRow">
+        <td class="intensCell checkedTd" onclick="markAcquiredItem(this.parentElement)">
+          ${writeItemOnTable(
+            arrayOfItems[i].item,
+            arrayOfItems[i].itemDescription,
+            arrayOfItems[i].acquired,
+            arrayOfItems[i].inEdition
+          )}
+        </td>
+        <td class="align-middle qttyCellStandard checkedTd">
+          ${writeQttyOnTable(
+            arrayOfItems[i].quantity,
+            arrayOfItems[i].unity,
+            arrayOfItems[i].inEdition
+          )}
+        </td>
+        <td class="align-middle">
+          ${createDeleteBtn()}
+        </td>
+        <td class="align-middle"> </td>
+      </tr>
+    `;
+    }
+  }
+}
+function writeItemOnTable(itemName, descripionOfItem, acquiredState, editState) {
+  if (!acquiredState && !editState) {
+    const itemCellText = `
+    <p class="itemName">
+      ${itemName} <br/>
+      <span class="itemsDescription" >
+        ${descripionOfItem}
+      </span>
+    </p>
+    `;
+    return itemCellText;
+  }
+  if (acquiredState && !editState) {
+    const itemCellText = `
+    <div class="tickContainerChecked">
+      <div class="cellTextContent">
+        <p class="itemName">
+          ${itemName} <br/>
+          <span class="itemsDescription" >
+            ${descripionOfItem}
+          </span>
+        </p>
+      </div>
+    </div>
+    `;
+    return itemCellText;
+  }
+}
+function writeQttyOnTable(qtty, unitySymbol, editState) {
+  if (!editState) {
+    const qttyAndUnityText = `
+      <p class="qttyParagraph">
+        ${qtty}
+        <span class="unityText">
+          ${unitySymbol}
+        </span>
+      </p>
+    `;
+    return qttyAndUnityText;
+  }
+}
+function createDeleteBtn() {
+  const deleteBtnHtml = `
+    <button
+      type="button"
+      class="btn btn-danger d-flex align-items-center justify-content-center"
+      id="delBtn"
+      onclick="removeItem(this)"
+    >
+      <span class="bi bi-journal-x" id="delIcon"></span>
+    </button>
+  `;
+  return deleteBtnHtml;
 }
 
 function removeItem(deleteBtnReference) {
@@ -90,16 +173,8 @@ function createEditBttn(rowReference) {
   cellEdit.className = 'align-middle';
 }
 
-function markAcquiredItem(event) {
-  if (event.target.tagName == 'P') {
-    const outterCellContainer = event.target.parentNode.parentNode;
-    const cellOfQtty = event.target.parentNode.parentNode.parentNode.nextSibling;
-    const clickedRow = event.target.parentNode.parentNode.parentNode.parentNode;
-    const clickedRowIndex = clickedRow.rowIndex;
-    outterCellContainer.classList.toggle('tickContainerChecked');
-    clickedRow.classList.toggle('checkedRow');
-    cellOfQtty.classList.toggle('checkedTd');
-    arrayOfItems[clickedRowIndex - 1].acquired = clickedRow.className == 'checkedRow';
-  }
+function markAcquiredItem(rowReference) {
+  arrayOfItems[rowReference.rowIndex - 1].acquired = !arrayOfItems[rowReference.rowIndex - 1].acquired;
+  createTable('listField');
+  buildRow('listTableBody');
 }
-document.getElementById('listTable').addEventListener('click', markAcquiredItem);

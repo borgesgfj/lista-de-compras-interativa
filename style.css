@@ -114,11 +114,11 @@ table#listTable th#headCellItem {
 tbody {
   font-size: 15pt;
 }
-#qttyCells {
+.qttyCellStandard {
   text-align: center;
   width: 15%;
 }
-#itensCell {
+.itensCell {
   width: 80%;
 }
 #delIcon {
@@ -137,15 +137,12 @@ button#delBtn:hover {
   border: 1px solid red;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
-
 .tickContainer {
   margin-bottom: -1em;
 }
 .tickContainerChecked {
   position: relative;
   margin-left: 0.5em;
-  color: white;
-  text-decoration: line-through;
 }
 .tickContainerChecked::before {
   content: ' ';
@@ -166,7 +163,5 @@ button#delBtn:hover {
 .checkedTd {
   color: white;
   text-decoration: line-through;
-}
-.checkedItemsDescription {
-  margin-left: 2.5em;
+  text-decoration-thickness: 0.075em;
 }
