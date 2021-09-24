@@ -54,75 +54,52 @@ function createTable(divId) {
 function buildRow(tableBodyId) {
   const tableBody = document.getElementById(tableBodyId);
   for (let i = 0; i < arrayOfItems.length; i++) {
-    if (!arrayOfItems[i].acquired && !arrayOfItems[i].inEdition) {
+    if(!arrayOfItems[i].inEdition){
+      let itemCellClass = "intensCell align-middle"
+      let qttyCellClass = "align-middle qttyCellStandard"
+      let tableRowClass = "standardRow"
+      if(arrayOfItems[i].acquired) {
+        itemCellClass += " checkedTd"
+        qttyCellClass += " checkedTd"
+        tableRowClass += " checkedRow"
+      }
       tableBody.innerHTML += `
-      <tr>
-        <td class="intensCell" onclick="markAcquiredItem(this.parentElement)">
-          ${writeItemOnTable(
-            arrayOfItems[i].item,
-            arrayOfItems[i].itemDescription,
-            arrayOfItems[i].acquired,
-            arrayOfItems[i].inEdition
-          )}
-        </td>
-        <td class="align-middle qttyCellStandard">
-          ${writeQttyOnTable(
-            arrayOfItems[i].quantity,
-            arrayOfItems[i].unity,
-            arrayOfItems[i].acquired,
-            arrayOfItems[i].inEdition
-          )}
-        </td>
-        <td class="align-middle">
-          ${createDeleteBtn()}
-        </td>
-        <td class="align-middle"> </td>
-      </tr>
-    `;
-    }
-    if (arrayOfItems[i].acquired && !arrayOfItems[i].inEdition) {
-      tableBody.innerHTML += `
-      <tr class="checkedRow">
-        <td class="intensCell checkedTd" onclick="markAcquiredItem(this.parentElement)">
-          ${writeItemOnTable(
-            arrayOfItems[i].item,
-            arrayOfItems[i].itemDescription,
-            arrayOfItems[i].acquired,
-            arrayOfItems[i].inEdition
-          )}
-        </td>
-        <td class="align-middle qttyCellStandard checkedTd">
-          ${writeQttyOnTable(
-            arrayOfItems[i].quantity,
-            arrayOfItems[i].unity,
-            arrayOfItems[i].inEdition
-          )}
-        </td>
-        <td class="align-middle">
-          ${createDeleteBtn()}
-        </td>
-        <td class="align-middle"> </td>
-      </tr>
-    `;
+        <tr class="${tableRowClass}">
+          <td class= "${itemCellClass}" onclick="markAcquiredItem(this.parentElement)">
+            ${writeItemOnTable(
+              arrayOfItems[i].item,
+              arrayOfItems[i].itemDescription,
+              arrayOfItems[i].acquired,
+              arrayOfItems[i].inEdition
+            )}
+          </td>
+          <td class= "${qttyCellClass}">
+            ${writeQttyOnTable(
+              arrayOfItems[i].quantity,
+              arrayOfItems[i].unity,
+              arrayOfItems[i].inEdition
+            )}
+          </td>
+          <td class="align-middle">
+            ${createDeleteBtn()}
+          </td>
+          <td class="align-middle"> </td>
+        </tr>
+      `;
     }
   }
 }
 function writeItemOnTable(itemName, descripionOfItem, acquiredState, editState) {
-  if (!acquiredState && !editState) {
+  if (!editState) {
+    let classOfCheckMarkContainer = "tickContainer"
+    let itemTextLeftIdent = "standardLeftIdent"
+    if(acquiredState) {
+      classOfCheckMarkContainer += " tickContainerChecked"
+      itemTextLeftIdent += " checkedIdent"
+    }
     const itemCellText = `
-    <p class="itemName">
-      ${itemName} <br/>
-      <span class="itemsDescription" >
-        ${descripionOfItem}
-      </span>
-    </p>
-    `;
-    return itemCellText;
-  }
-  if (acquiredState && !editState) {
-    const itemCellText = `
-    <div class="tickContainerChecked">
-      <div class="cellTextContent">
+    <div class="${classOfCheckMarkContainer}">
+      <div class="${itemTextLeftIdent}">
         <p class="itemName">
           ${itemName} <br/>
           <span class="itemsDescription" >
