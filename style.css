@@ -27,9 +27,9 @@ div#inputField:hover {
 }
 #inputItemDescription {
   font-size: smaller;
-  height: 3.5em;
+  height: 2.5rem;
   max-width: 85%;
-  border-radius: 0px;
+  border-radius: 0;
 }
 .btn:focus {
   outline: none;
@@ -47,22 +47,22 @@ div#inputField:hover {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 #addIcon {
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 
 #inputQtty {
-  max-width: 6em;
-  min-width: 6em;
-  border-right: 0px;
+  max-width: 7rem;
+  min-width: 7rem;
+  border-right: 0;
 }
 #selectUnity {
-  max-width: 9em;
-  min-width: 9em;
-  height: 5.1em;
+  max-width: 8rem;
+  min-width: 8rem;
+  height: 4.5rem;
   font-size: smaller;
-  border-left: 0px;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 div#listArea {
@@ -78,7 +78,7 @@ div#listArea:hover {
 div#listField {
   display: block;
   background-color: rgb(247, 247, 247);
-  margin: 10px;
+  margin: 0.5rem;
   min-width: 365px;
 }
 table#listTable {
@@ -86,7 +86,7 @@ table#listTable {
 }
 tr#tableHeader {
   border: 1px solid rgb(204, 195, 195);
-  font-size: 1.4em;
+  font-size: 1.5rem;
   font-family: 'Roboto Mono', monospace;
   font-weight: bold;
 }
@@ -98,25 +98,25 @@ table#listTable th#headCellItem {
   width: 75%;
 }
 .standardRow {
-  font-size: 1.3em;
+  font-size: 1.3rem;
 }
 .itensCell {
   width: 80%;
 }
 .itemsDescription {
-  font-size: 0.75em;
+  font-size: 0.9rem;
   font-style: italic;
-  margin-left: 1.5em;
+  margin-left: 1rem;
 }
 .itemName {
   cursor: pointer;
   line-height: 1;
 }
 .standardLeftIdent {
-  margin-left: 0.25em;
+  margin-left: 0.5rem;
 }
 .checkedIdent {
-  margin-left: 1.5em;
+  margin-left: 1.8rem;
 }
 .qttyCellStandard {
   text-align: center;
@@ -129,16 +129,16 @@ table#listTable th#headCellItem {
 .checkedTd {
   color: white;
   text-decoration: line-through;
-  text-decoration-thickness: 0.075em;
+  text-decoration-thickness: 0.2rem;
 }
 #delIcon {
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: bolder;
 }
 button#delBtn {
   opacity: 0.3;
-  width: 50px;
-  height: 30px;
+  width: 3.1rem;
+  height: 2rem;
   transition: 0.5s;
 }
 button#delBtn:hover {
@@ -148,12 +148,12 @@ button#delBtn:hover {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 .tickContainer {
-  margin-top: -0.8em;
-  margin-bottom: -1.5em;
+  margin-top: -0.8rem;
+  margin-bottom: -1.5rem;
 }
 .tickContainerChecked {
   position: relative;
-  margin-left: 0.5em;
+  margin-left: 0.5rem;
 }
 .tickContainerChecked::before {
   content: ' ';
@@ -162,10 +162,9 @@ button#delBtn:hover {
   border-color: whitesmoke;
   border-style: solid;
   border-width: 0 2px 2px 0;
-  top: 0.5em;
-  left: 0.1em;
+  top: 0.5rem;
+  left: 0.1rem;
   transform: rotate(45deg);
-  height: 1em;
-  width: 0.5em;
+  height: 1.5rem;
+  width: 0.8rem;
 }
-

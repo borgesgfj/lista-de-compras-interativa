@@ -25,8 +25,7 @@ function addElement() {
     inEdition: false,
   };
   arrayOfItems.push(newProduct);
-  createTable('listField');
-  buildRow('listTableBody');
+  renderTableOfItems('listTableBody');
   addButton.disabled = true;
   document.getElementById('inputItem').value = '';
   document.getElementById('inputItemDescription').value = '';
@@ -34,34 +33,18 @@ function addElement() {
   document.getElementById('selectUnity').value = 'un.';
 }
 
-function createTable(divId) {
-  document.getElementById(divId).innerHTML = `
-    <table class="table table-borderless table-striped table-hover" id="listTable">
-      <thead class="table-dark">
-        <tr id="tableHeader">
-          <th id="headCellItem">Item</th>
-          <th id="headCellQtty">Qtde.</th>
-          <th id="headCellDelBtn"></th>
-          <th id="headCellEditBtn"></th>
-        </tr>
-      </thead>
-      <tbody id="listTableBody">
-      </tbody>
-    </table>
-  `;
-}
-
-function buildRow(tableBodyId) {
+function renderTableOfItems(tableBodyId) {
   const tableBody = document.getElementById(tableBodyId);
+  tableBody.innerHTML = '';
   for (let i = 0; i < arrayOfItems.length; i++) {
-    if(!arrayOfItems[i].inEdition){
-      let itemCellClass = "intensCell align-middle"
-      let qttyCellClass = "align-middle qttyCellStandard"
-      let tableRowClass = "standardRow"
-      if(arrayOfItems[i].acquired) {
-        itemCellClass += " checkedTd"
-        qttyCellClass += " checkedTd"
-        tableRowClass += " checkedRow"
+    if (!arrayOfItems[i].inEdition) {
+      let itemCellClass = 'intensCell align-middle';
+      let qttyCellClass = 'align-middle qttyCellStandard';
+      let tableRowClass = 'standardRow';
+      if (arrayOfItems[i].acquired) {
+        itemCellClass += ' checkedTd';
+        qttyCellClass += ' checkedTd';
+        tableRowClass += ' checkedRow';
       }
       tableBody.innerHTML += `
         <tr class="${tableRowClass}">
@@ -91,30 +74,29 @@ function buildRow(tableBodyId) {
 }
 function writeItemOnTable(itemName, descripionOfItem, acquiredState, editState) {
   if (!editState) {
-    let classOfCheckMarkContainer = "tickContainer"
-    let itemTextLeftIdent = "standardLeftIdent"
-    if(acquiredState) {
-      classOfCheckMarkContainer += " tickContainerChecked"
-      itemTextLeftIdent += " checkedIdent"
+    let classOfCheckMarkContainer = 'tickContainer';
+    let itemTextLeftIdent = 'standardLeftIdent';
+    if (acquiredState) {
+      classOfCheckMarkContainer += ' tickContainerChecked';
+      itemTextLeftIdent += ' checkedIdent';
     }
-    const itemCellText = `
-    <div class="${classOfCheckMarkContainer}">
-      <div class="${itemTextLeftIdent}">
-        <p class="itemName">
-          ${itemName} <br/>
-          <span class="itemsDescription" >
-            ${descripionOfItem}
-          </span>
-        </p>
+    return `
+      <div class="${classOfCheckMarkContainer}">
+        <div class="${itemTextLeftIdent}">
+          <p class="itemName">
+            ${itemName} <br/>
+            <span class="itemsDescription" >
+              ${descripionOfItem}
+            </span>
+          </p>
+        </div>
       </div>
-    </div>
     `;
-    return itemCellText;
   }
 }
 function writeQttyOnTable(qtty, unitySymbol, editState) {
   if (!editState) {
-    const qttyAndUnityText = `
+    return `
       <p class="qttyParagraph">
         ${qtty}
         <span class="unityText">
@@ -122,11 +104,10 @@ function writeQttyOnTable(qtty, unitySymbol, editState) {
         </span>
       </p>
     `;
-    return qttyAndUnityText;
   }
 }
 function createDeleteBtn() {
-  const deleteBtnHtml = `
+  return `
     <button
       type="button"
       class="btn btn-danger d-flex align-items-center justify-content-center"
@@ -136,7 +117,6 @@ function createDeleteBtn() {
       <span class="bi bi-journal-x" id="delIcon"></span>
     </button>
   `;
-  return deleteBtnHtml;
 }
 
 function removeItem(deleteBtnReference) {
@@ -151,7 +131,7 @@ function createEditBttn(rowReference) {
 }
 
 function markAcquiredItem(rowReference) {
-  arrayOfItems[rowReference.rowIndex - 1].acquired = !arrayOfItems[rowReference.rowIndex - 1].acquired;
-  createTable('listField');
-  buildRow('listTableBody');
+  arrayOfItems[rowReference.rowIndex - 1].acquired =
+    !arrayOfItems[rowReference.rowIndex - 1].acquired;
+  renderTableOfItems('listTableBody');
 }
