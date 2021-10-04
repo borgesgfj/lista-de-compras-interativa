@@ -37,88 +37,112 @@ function renderTableOfItems(tableBodyId) {
   const tableBody = document.getElementById(tableBodyId);
   tableBody.innerHTML = '';
   for (let i = 0; i < arrayOfItems.length; i++) {
+    const item = arrayOfItems[i];
     let itemCellClass = 'intensCell align-middle';
     let qttyCellClass = 'align-middle qttyCellStandard';
     let tableRowClass = 'standardRow';
-      if (arrayOfItems[i].acquired) {
-        itemCellClass += ' checkedTd';
-        qttyCellClass += ' checkedTd';
-        tableRowClass += ' checkedRow';
-      }
-      tableBody.innerHTML += `
+    if (item.acquired) {
+      itemCellClass += ' checkedTd';
+      qttyCellClass += ' checkedTd';
+      tableRowClass += ' checkedRow';
+    }
+    tableBody.innerHTML += `
         <tr class="${tableRowClass}">
           <td class= "${itemCellClass}" onclick="markAcquiredItem(this.parentElement)">
-            ${cellOfItemsContent(
-              arrayOfItems[i].item,
-              arrayOfItems[i].itemDescription,
-              arrayOfItems[i].acquired,
-              arrayOfItems[i].inEdition
+            ${createCellOfItemsContent(
+              item.item,
+              item.itemDescription,
+              item.acquired,
+              item.inEdition
             )}
           </td>
           <td class= "${qttyCellClass}">
-            ${cellOfQttyContent(
-              arrayOfItems[i].quantity,
-              arrayOfItems[i].unity,
-              arrayOfItems[i].inEdition
-            )}
+            ${createCellOfQttyContent(item.quantity, item.unity, item.inEdition)}
           </td>
           <td class="align-middle">
             ${createDeleteBtn()}
           </td>
-          <td class="align-middle">${editAndConfirmEditionBtns(arrayOfItems[i].inEdition, arrayOfItems[i].acquired)} </td>
+          <td class="align-middle">${editAndConfirmEditionBtns(item.inEdition, item.acquired)} </td>
         </tr>
       `;
-      if(arrayOfItems[i].inEdition) {
-        tableBody.parentElement.rows[i +1].deleteCell(2)
-        tableBody.parentElement.rows[i +1].cells[1].colSpan = 2
-      }
+    if (item.inEdition) {
+      tableBody.parentElement.rows[i + 1].deleteCell(2);
+      tableBody.parentElement.rows[i + 1].cells[1].colSpan = 2;
+    }
   }
 }
-function cellOfItemsContent(itemName, descripionOfItem, acquiredState, editState) {
+function createEditItemsInputs(item, description) {
+  return `
+  <div class="input-group-vertical input-group-sm mt-1">
+    <input
+      type="text"
+      class="form-control"
+      name="inputEditItemName"
+      id="inputEditItemName"
+      placeholder="Editar nome do produto"
+      oninput="validateDuplicateEditInputs(this.offsetParent.parentElement)"
+      value = ${item}
+    />
+    <input
+    type="text"
+    class="form-control ms-2 mt-1"
+    name="inputEditItemDescription"
+    id="inputEditItemDescription"
+    placeholder="Editar descrição do produto"
+    value = ${description}
+    />
+  </div>
+`;
+}
+function createEditQttyAndUnityinputs(quantity) {
+  return `
+  <div class="input-group input-group-sm flex-nowrap">
+    <input
+      type="number"
+      class="form-control-sm inputEditQtty"
+      name="EditQtty"
+      id="EditQtty"
+      min="1"
+      size="4"
+      value=${quantity}
+    />
+    <select class="form-select form-select-sm selectEditUnity"
+      id="selectInputUnity"
+    >
+      <option value="un.">un.</option>
+      <option value="kg">kg</option>
+      <option value="g">g</option>
+      <option value="Duz">Duz</option>
+      <option value="1/2 Duz">1/2 Duz</option>
+    </select>
+  </div>
+`;
+}
+function createCellOfItemsContent(itemName, descriptionOfItem, acquiredState, editState) {
   if (!editState) {
     let classOfCheckMarkContainer = 'tickContainer';
-    let itemtextLeftIdent = 'standardLeftIdent';
+    let itemTextLeftIdent = 'standardLeftIdent';
     if (acquiredState) {
       classOfCheckMarkContainer += ' tickContainerChecked';
-      itemtextLeftIdent += ' checkedIdent';
+      itemTextLeftIdent += ' checkedIdent';
     }
     return `
       <div class="${classOfCheckMarkContainer}">
-        <div class="${itemtextLeftIdent}">
+        <div class="${itemTextLeftIdent}">
           <p class="itemName">
             ${itemName} <br/>
             <span class="itemsDescription" >
-              ${descripionOfItem}
+              ${descriptionOfItem}
             </span>
           </p>
         </div>
       </div>
     `;
   } else {
-    return `
-      <div class="input-group-vertical input-group-sm mt-1">
-        <input
-          type="text"
-          class="form-control"
-          name="inputEditItemName"
-          id="inputEditItemName"
-          placeholder="Editar nome do produto"
-          oninput="validateDuplicateEditInputs(this.offsetParent.parentElement)"
-          value = ${itemName}
-        />
-        <input
-        type="text"
-        class="form-control ms-2 mt-1"
-        name="inputEditItemDescription"
-        id="inputEditItemDescription"
-        placeholder="Editar descrição do produto"
-        value = ${descripionOfItem}
-        />
-      </div>
-    `;
+    return createEditItemsInputs(itemName, descriptionOfItem);
   }
 }
-function cellOfQttyContent(qtty, unitySymbol, editState) {
+function createCellOfQttyContent(qtty, unitySymbol, editState) {
   if (!editState) {
     return `
       <p class="qttyParagraph">
@@ -128,29 +152,8 @@ function cellOfQttyContent(qtty, unitySymbol, editState) {
         </span>
       </p>
     `;
-  } else{
-    return `
-      <div class="input-group input-group-sm flex-nowrap">
-        <input
-          type="number"
-          class="form-control-sm inputEditQtty"
-          name="EditQtty"
-          id="EditQtty"
-          min="1"
-          size="4"
-          value=${qtty}
-        />
-        <select class="form-select form-select-sm selectEditUnity"
-          id="selectInputUnity"
-        >
-          <option value="un.">un.</option>
-          <option value="kg">kg</option>
-          <option value="g">g</option>
-          <option value="Duz">Duz</option>
-          <option value="1/2 Duz">1/2 Duz</option>
-        </select>
-      </div>
-    `
+  } else {
+    return createEditQttyAndUnityinputs(qtty);
   }
 }
 function createDeleteBtn() {
@@ -173,7 +176,7 @@ function removeItem(deleteBtnReference) {
 }
 function editAndConfirmEditionBtns(editState, acquiredState) {
   if (acquiredState) {
-    return ''
+    return '';
   }
   if (!editState) {
     return `
@@ -186,8 +189,7 @@ function editAndConfirmEditionBtns(editState, acquiredState) {
       <span class="bi bi-pencil-square tableBtnIcon"></span>
     </button>
     `;
-  }
-  else {
+  } else {
     return `
       <button
         type="button"
@@ -202,37 +204,41 @@ function editAndConfirmEditionBtns(editState, acquiredState) {
 }
 
 function markAcquiredItem(rowReference) {
-  if(!arrayOfItems[rowReference.rowIndex - 1].inEdition) {
+  if (!arrayOfItems[rowReference.rowIndex - 1].inEdition) {
     arrayOfItems[rowReference.rowIndex - 1].acquired =
-    !arrayOfItems[rowReference.rowIndex - 1].acquired;
+      !arrayOfItems[rowReference.rowIndex - 1].acquired;
     renderTableOfItems('listTableBody');
   }
 }
 function validateEmptyEditionInputs() {
-  const editedItemName = document.getElementById('inputEditItemName').value
-  document.getElementById('confirmEditionBtn').disabled = editedItemName.trim() === ''
+  const editedItemName = document.getElementById('inputEditItemName').value;
+  document.getElementById('confirmEditionBtn').disabled = editedItemName.trim() === '';
 }
 
 function validateDuplicateEditInputs(rowReference) {
-  const productIndex = rowReference.rowIndex -1
-  const editedItemName = document.getElementById('inputEditItemName').value
+  const productIndex = rowReference.rowIndex - 1;
+  const editedItemName = document.getElementById('inputEditItemName').value;
   document.getElementById('confirmEditionBtn').disabled = arrayOfItems.some((products, index) => {
     if (index != productIndex) {
-      return products.item === editedItemName.trim()
+      return products.item === editedItemName.trim();
     }
-  })
+  });
 }
 function makeItemEditable(rowReference) {
-  arrayOfItems[rowReference.rowIndex - 1].inEdition = !arrayOfItems[rowReference.rowIndex - 1].inEdition;
+  arrayOfItems[rowReference.rowIndex - 1].inEdition =
+    !arrayOfItems[rowReference.rowIndex - 1].inEdition;
   renderTableOfItems('listTableBody');
-  document.getElementById('inputEditItemName').addEventListener('change', validateEmptyEditionInputs)
+  document
+    .getElementById('inputEditItemName')
+    .addEventListener('change', validateEmptyEditionInputs);
 }
 
 function confirmEdition(rowReference) {
-  arrayOfItems[rowReference.rowIndex - 1].item = document.getElementById('inputEditItemName').value
-  arrayOfItems[rowReference.rowIndex - 1].itemDescription = document.getElementById('inputEditItemDescription').value
-  arrayOfItems[rowReference.rowIndex - 1].quantity = document.getElementById('EditQtty').value
-  arrayOfItems[rowReference.rowIndex - 1].unity = document.getElementById('selectInputUnity').value
-  arrayOfItems[rowReference.rowIndex - 1].inEdition = false
-  renderTableOfItems('listTableBody')
+  const item = arrayOfItems[rowReference.rowIndex - 1];
+  item.item = document.getElementById('inputEditItemName').value;
+  item.itemDescription = document.getElementById('inputEditItemDescription').value;
+  item.quantity = document.getElementById('EditQtty').value;
+  item.unity = document.getElementById('selectInputUnity').value;
+  item.inEdition = false;
+  renderTableOfItems('listTableBody');
 }
