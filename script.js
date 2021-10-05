@@ -3,17 +3,20 @@ const arrayOfItems = [];
 addButton.disabled = true;
 const qtty = document.getElementById('inputQtty');
 qtty.value = '1';
-function validateEmptyInputs() {
+function isInputEmpty() {
   const item = document.getElementById('inputItem').value;
-  addButton.disabled = item.trim() === '';
+  return item.trim() === '';
 }
-document.getElementById('inputItem').addEventListener('change', validateEmptyInputs);
 
-function validateDuplicatedItem() {
+function isInputDuplicated() {
   const newItem = document.getElementById('inputItem').value.trim();
-  addButton.disabled = arrayOfItems.some((registeredItem) => registeredItem.item === newItem);
+  return arrayOfItems.some((registeredItem) => registeredItem.item === newItem);
 }
-document.getElementById('inputItem').addEventListener('change', validateDuplicatedItem);
+
+function validateNewItem() {
+  addButton.disabled = isInputEmpty() || isInputDuplicated();
+}
+document.getElementById('inputItem').addEventListener('input', validateNewItem);
 
 function addElement() {
   const newProduct = {
@@ -80,7 +83,7 @@ function createEditItemsInputs(item, description) {
       name="inputEditItemName"
       id="inputEditItemName"
       placeholder="Editar nome do produto"
-      oninput="validateDuplicateEditInputs(this.offsetParent.parentElement)"
+      oninput="validateEditedItems(this.offsetParent.parentElement)"
       value = ${item}
     />
     <input
@@ -204,33 +207,33 @@ function editAndConfirmEditionBtns(editState, acquiredState) {
 }
 
 function markAcquiredItem(rowReference) {
-  if (!arrayOfItems[rowReference.rowIndex - 1].inEdition) {
-    arrayOfItems[rowReference.rowIndex - 1].acquired =
-      !arrayOfItems[rowReference.rowIndex - 1].acquired;
+  const productIndex = rowReference.rowIndex - 1;
+  if (!arrayOfItems[productIndex].inEdition) {
+    arrayOfItems[productIndex].acquired = !arrayOfItems[productIndex].acquired;
     renderTableOfItems('listTableBody');
   }
 }
-function validateEmptyEditionInputs() {
-  const editedItemName = document.getElementById('inputEditItemName').value;
-  document.getElementById('confirmEditionBtn').disabled = editedItemName.trim() === '';
-}
+const isEditionInputEmpty = () => (document.getElementById('inputEditItemName').value).trim() === '';
 
-function validateDuplicateEditInputs(rowReference) {
-  const productIndex = rowReference.rowIndex - 1;
+function isEditedInputDuplicate(productIndex) {
   const editedItemName = document.getElementById('inputEditItemName').value;
-  document.getElementById('confirmEditionBtn').disabled = arrayOfItems.some((products, index) => {
+  return arrayOfItems.some((products, index) => {
     if (index != productIndex) {
       return products.item === editedItemName.trim();
     }
   });
 }
+
+function validateEditedItems(rowReference) {
+  const productInEdition = rowReference.rowIndex - 1;
+  document.getElementById('confirmEditionBtn').disabled =
+    isEditionInputEmpty() || isEditedInputDuplicate(productInEdition);
+}
+
 function makeItemEditable(rowReference) {
-  arrayOfItems[rowReference.rowIndex - 1].inEdition =
-    !arrayOfItems[rowReference.rowIndex - 1].inEdition;
+  const productIndex = rowReference.rowIndex - 1;
+  arrayOfItems[productIndex].inEdition = !arrayOfItems[productIndex].inEdition;
   renderTableOfItems('listTableBody');
-  document
-    .getElementById('inputEditItemName')
-    .addEventListener('change', validateEmptyEditionInputs);
 }
 
 function confirmEdition(rowReference) {
