@@ -141,9 +141,8 @@ function createCellOfItemsContent(itemName, descriptionOfItem, acquiredState, ed
         </div>
       </div>
     `;
-  } else {
-    return createEditItemsInputs(itemName, descriptionOfItem);
   }
+  return createEditItemsInputs(itemName, descriptionOfItem);
 }
 function createCellOfQttyContent(qtty, unitySymbol, editState) {
   if (!editState) {
@@ -155,9 +154,8 @@ function createCellOfQttyContent(qtty, unitySymbol, editState) {
         </span>
       </p>
     `;
-  } else {
-    return createEditQttyAndUnityinputs(qtty);
   }
+  return createEditQttyAndUnityinputs(qtty);
 }
 function createDeleteBtn() {
   return `
@@ -192,18 +190,17 @@ function editAndConfirmEditionBtns(editState, acquiredState) {
       <span class="bi bi-pencil-square tableBtnIcon"></span>
     </button>
     `;
-  } else {
-    return `
-      <button
-        type="button"
-        class="btn btn-success d-flex align-items-center justify-content-center smallTableBtn"
-        id="confirmEditionBtn"
-        onclick="confirmEdition(this.parentElement.parentElement)"
-      >
-        <span class="bi bi bi-check-circle-fill tableBtnIcon"></span>
-      </button>
-    `;
   }
+  return `
+    <button
+      type="button"
+      class="btn btn-success d-flex align-items-center justify-content-center smallTableBtn"
+      id="confirmEditionBtn"
+      onclick="confirmEdition(this.parentElement.parentElement)"
+    >
+      <span class="bi bi bi-check-circle-fill tableBtnIcon"></span>
+    </button>
+  `;
 }
 
 function markAcquiredItem(rowReference) {
@@ -213,7 +210,7 @@ function markAcquiredItem(rowReference) {
     renderTableOfItems('listTableBody');
   }
 }
-const isEditionInputEmpty = () => (document.getElementById('inputEditItemName').value).trim() === '';
+const isEditionInputEmpty = () => document.getElementById('inputEditItemName').value.trim() === '';
 
 function isEditedInputDuplicate(productIndex) {
   const editedItemName = document.getElementById('inputEditItemName').value;
