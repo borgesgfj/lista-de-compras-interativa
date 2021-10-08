@@ -3,17 +3,20 @@ const arrayOfItems = [];
 addButton.disabled = true;
 const qtty = document.getElementById('inputQtty');
 qtty.value = '1';
-function validatEmptyInputs() {
+function isInputEmpty() {
   const item = document.getElementById('inputItem').value;
-  addButton.disabled = item.trim() === '';
+  return item.trim() === '';
 }
-document.getElementById('inputItem').addEventListener('change', validatEmptyInputs);
 
-function validateDuplicatedItem() {
+function isInputDuplicated() {
   const newItem = document.getElementById('inputItem').value.trim();
-  addButton.disabled = arrayOfItems.some((registeredItem) => registeredItem.item === newItem);
+  return arrayOfItems.some((registeredItem) => registeredItem.item === newItem);
 }
-document.getElementById('inputItem').addEventListener('change', validateDuplicatedItem);
+
+function validateNewItem() {
+  addButton.disabled = isInputEmpty() || isInputDuplicated();
+}
+document.getElementById('inputItem').addEventListener('input', validateNewItem);
 
 function addElement() {
   const newProduct = {
@@ -37,42 +40,88 @@ function renderTableOfItems(tableBodyId) {
   const tableBody = document.getElementById(tableBodyId);
   tableBody.innerHTML = '';
   for (let i = 0; i < arrayOfItems.length; i++) {
-    if (!arrayOfItems[i].inEdition) {
-      let itemCellClass = 'intensCell align-middle';
-      let qttyCellClass = 'align-middle qttyCellStandard';
-      let tableRowClass = 'standardRow';
-      if (arrayOfItems[i].acquired) {
-        itemCellClass += ' checkedTd';
-        qttyCellClass += ' checkedTd';
-        tableRowClass += ' checkedRow';
-      }
-      tableBody.innerHTML += `
+    const item = arrayOfItems[i];
+    let itemCellClass = 'intensCell align-middle';
+    let qttyCellClass = 'align-middle qttyCellStandard';
+    let tableRowClass = 'standardRow';
+    if (item.acquired) {
+      itemCellClass += ' checkedTd';
+      qttyCellClass += ' checkedTd';
+      tableRowClass += ' checkedRow';
+    }
+    tableBody.innerHTML += `
         <tr class="${tableRowClass}">
           <td class= "${itemCellClass}" onclick="markAcquiredItem(this.parentElement)">
-            ${writeItemOnTable(
-              arrayOfItems[i].item,
-              arrayOfItems[i].itemDescription,
-              arrayOfItems[i].acquired,
-              arrayOfItems[i].inEdition
+            ${createCellOfItemsContent(
+              item.item,
+              item.itemDescription,
+              item.acquired,
+              item.inEdition
             )}
           </td>
           <td class= "${qttyCellClass}">
-            ${writeQttyOnTable(
-              arrayOfItems[i].quantity,
-              arrayOfItems[i].unity,
-              arrayOfItems[i].inEdition
-            )}
+            ${createCellOfQttyContent(item.quantity, item.unity, item.inEdition)}
           </td>
           <td class="align-middle">
             ${createDeleteBtn()}
           </td>
-          <td class="align-middle"> </td>
+          <td class="align-middle">${editAndConfirmEditionBtns(item.inEdition, item.acquired)} </td>
         </tr>
       `;
+    if (item.inEdition) {
+      tableBody.parentElement.rows[i + 1].deleteCell(2);
+      tableBody.parentElement.rows[i + 1].cells[1].colSpan = 2;
     }
   }
 }
-function writeItemOnTable(itemName, descripionOfItem, acquiredState, editState) {
+function createEditItemsInputs(item, description) {
+  return `
+  <div class="input-group-vertical input-group-sm mt-1">
+    <input
+      type="text"
+      class="form-control"
+      name="inputEditItemName"
+      id="inputEditItemName"
+      placeholder="Editar nome do produto"
+      oninput="validateEditedItems(this.offsetParent.parentElement)"
+      value = ${item}
+    />
+    <input
+    type="text"
+    class="form-control ms-2 mt-1"
+    name="inputEditItemDescription"
+    id="inputEditItemDescription"
+    placeholder="Editar descrição do produto"
+    value = ${description}
+    />
+  </div>
+`;
+}
+function createEditQttyAndUnityinputs(quantity) {
+  return `
+  <div class="input-group input-group-sm flex-nowrap">
+    <input
+      type="number"
+      class="form-control-sm inputEditQtty"
+      name="EditQtty"
+      id="EditQtty"
+      min="1"
+      size="4"
+      value=${quantity}
+    />
+    <select class="form-select form-select-sm selectEditUnity"
+      id="selectInputUnity"
+    >
+      <option value="un.">un.</option>
+      <option value="kg">kg</option>
+      <option value="g">g</option>
+      <option value="Duz">Duz</option>
+      <option value="1/2 Duz">1/2 Duz</option>
+    </select>
+  </div>
+`;
+}
+function createCellOfItemsContent(itemName, descriptionOfItem, acquiredState, editState) {
   if (!editState) {
     let classOfCheckMarkContainer = 'tickContainer';
     let itemTextLeftIdent = 'standardLeftIdent';
@@ -86,31 +135,33 @@ function writeItemOnTable(itemName, descripionOfItem, acquiredState, editState) 
           <p class="itemName">
             ${itemName} <br/>
             <span class="itemsDescription" >
-              ${descripionOfItem}
+              ${descriptionOfItem}
             </span>
           </p>
         </div>
       </div>
     `;
   }
+  return createEditItemsInputs(itemName, descriptionOfItem);
 }
-function writeQttyOnTable(qtty, unitySymbol, editState) {
+function createCellOfQttyContent(qtty, unitySymbol, editState) {
   if (!editState) {
     return `
       <p class="qttyParagraph">
         ${qtty}
-        <span class="unityText">
+        <span class="unitytext">
           ${unitySymbol}
         </span>
       </p>
     `;
   }
+  return createEditQttyAndUnityinputs(qtty);
 }
 function createDeleteBtn() {
   return `
     <button
       type="button"
-      class="btn btn-danger d-flex align-items-center justify-content-center"
+      class="btn btn-danger d-flex align-items-center justify-content-center smallTableBtn"
       id="delBtn"
       onclick="removeItem(this)"
     >
@@ -124,14 +175,70 @@ function removeItem(deleteBtnReference) {
   document.getElementById('listTable').deleteRow(indexOfRow);
   arrayOfItems.splice(indexOfRow - 1, 1);
 }
-function createEditBttn(rowReference) {
-  const cellEdit = rowReference.insertCell();
-  cellEdit.id = 'editCell';
-  cellEdit.className = 'align-middle';
+function editAndConfirmEditionBtns(editState, acquiredState) {
+  if (acquiredState) {
+    return '';
+  }
+  if (!editState) {
+    return `
+    <button
+      type="button"
+      class="btn btn-primary d-flex align-items-center justify-content-center smallTableBtn"
+      id="editBtn"
+      onclick="makeItemEditable(this.parentElement.parentElement)"
+    >
+      <span class="bi bi-pencil-square tableBtnIcon"></span>
+    </button>
+    `;
+  }
+  return `
+    <button
+      type="button"
+      class="btn btn-success d-flex align-items-center justify-content-center smallTableBtn"
+      id="confirmEditionBtn"
+      onclick="confirmEdition(this.parentElement.parentElement)"
+    >
+      <span class="bi bi bi-check-circle-fill tableBtnIcon"></span>
+    </button>
+  `;
 }
 
 function markAcquiredItem(rowReference) {
-  arrayOfItems[rowReference.rowIndex - 1].acquired =
-    !arrayOfItems[rowReference.rowIndex - 1].acquired;
+  const productIndex = rowReference.rowIndex - 1;
+  if (!arrayOfItems[productIndex].inEdition) {
+    arrayOfItems[productIndex].acquired = !arrayOfItems[productIndex].acquired;
+    renderTableOfItems('listTableBody');
+  }
+}
+const isEditionInputEmpty = () => document.getElementById('inputEditItemName').value.trim() === '';
+
+function isEditedInputDuplicate(productIndex) {
+  const editedItemName = document.getElementById('inputEditItemName').value;
+  return arrayOfItems.some((products, index) => {
+    if (index != productIndex) {
+      return products.item === editedItemName.trim();
+    }
+  });
+}
+
+function validateEditedItems(rowReference) {
+  const productInEdition = rowReference.rowIndex - 1;
+  document.getElementById('confirmEditionBtn').disabled =
+    isEditionInputEmpty() || isEditedInputDuplicate(productInEdition);
+}
+
+function makeItemEditable(rowReference) {
+  const productIndex = rowReference.rowIndex - 1;
+  arrayOfItems[productIndex].inEdition = !arrayOfItems[productIndex].inEdition;
+  renderTableOfItems('listTableBody');
+}
+
+function confirmEdition(rowReference) {
+  const item = arrayOfItems[rowReference.rowIndex - 1];
+  item.item = document.getElementById('inputEditItemName').value;
+  item.itemDescription = document.getElementById('inputEditItemDescription').value;
+  item.quantity = document.getElementById('EditQtty').value;
+  item.unity = document.getElementById('selectInputUnity').value;
+  item.inEdition = false;
   renderTableOfItems('listTableBody');
 }
