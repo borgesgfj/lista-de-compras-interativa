@@ -152,7 +152,7 @@ button#editBtn:hover {
   opacity: 1;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
-button#confirmEditionBtn:hover{
+button#confirmEditionBtn:hover {
   opacity: 1;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
@@ -183,15 +183,16 @@ button#confirmEditionBtn:hover{
   min-width: 6rem;
   border-width: 0;
 }
-.inputEditQtty{
+.inputEditQtty {
   width: 6rem;
   min-width: 3rem;
   border-radius: 0;
   border-width: 0;
 }
 
-.form-control-sm:focus, .selectEditUnity:focus {
+.form-control-sm:focus,
+.selectEditUnity:focus {
   outline: none;
   border-color: #4c7afa;
-  box-shadow: none
+  box-shadow: none;
 }

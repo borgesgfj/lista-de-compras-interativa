@@ -1,8 +1,9 @@
-const addButton = document.getElementById('btnAdd');
-const arrayOfItems = [];
-addButton.disabled = true;
-const qtty = document.getElementById('inputQtty');
-qtty.value = '1';
+let tableArray = [];
+
+const disableAddButton = (isDisabled) =>
+  (document.getElementById('btnAdd').disabled = isDisabled);
+disableAddButton(true);
+
 function isInputEmpty() {
   const item = document.getElementById('inputItem').value;
   return item.trim() === '';
@@ -10,11 +11,11 @@ function isInputEmpty() {
 
 function isInputDuplicated() {
   const newItem = document.getElementById('inputItem').value.trim();
-  return arrayOfItems.some((registeredItem) => registeredItem.item === newItem);
+  return tableArray.some((registeredItem) => registeredItem.item === newItem);
 }
 
 function validateNewItem() {
-  addButton.disabled = isInputEmpty() || isInputDuplicated();
+  disableAddButton(isInputEmpty() || isInputDuplicated());
 }
 document.getElementById('inputItem').addEventListener('input', validateNewItem);
 
@@ -26,51 +27,58 @@ function addElement() {
     unity: document.getElementById('selectUnity').value,
     acquired: false,
     inEdition: false,
+    delete: false,
   };
-  arrayOfItems.push(newProduct);
-  renderTableOfItems('listTableBody');
-  addButton.disabled = true;
+  createNewItem(newProduct);
+  disableAddButton(true);
   document.getElementById('inputItem').value = '';
   document.getElementById('inputItemDescription').value = '';
   document.getElementById('inputQtty').value = '1';
   document.getElementById('selectUnity').value = 'un.';
 }
 
-function renderTableOfItems(tableBodyId) {
+function renderTableOfItems(tableBodyId, responseArray) {
   const tableBody = document.getElementById(tableBodyId);
   tableBody.innerHTML = '';
-  for (let i = 0; i < arrayOfItems.length; i++) {
-    const item = arrayOfItems[i];
-    let itemCellClass = 'intensCell align-middle';
-    let qttyCellClass = 'align-middle qttyCellStandard';
-    let tableRowClass = 'standardRow';
-    if (item.acquired) {
-      itemCellClass += ' checkedTd';
-      qttyCellClass += ' checkedTd';
-      tableRowClass += ' checkedRow';
-    }
-    tableBody.innerHTML += `
-        <tr class="${tableRowClass}">
-          <td class= "${itemCellClass}" onclick="markAcquiredItem(this.parentElement)">
-            ${createCellOfItemsContent(
-              item.item,
-              item.itemDescription,
-              item.acquired,
-              item.inEdition
-            )}
-          </td>
-          <td class= "${qttyCellClass}">
-            ${createCellOfQttyContent(item.quantity, item.unity, item.inEdition)}
-          </td>
-          <td class="align-middle">
-            ${createDeleteBtn()}
-          </td>
-          <td class="align-middle">${editAndConfirmEditionBtns(item.inEdition, item.acquired)} </td>
-        </tr>
-      `;
-    if (item.inEdition) {
-      tableBody.parentElement.rows[i + 1].deleteCell(2);
-      tableBody.parentElement.rows[i + 1].cells[1].colSpan = 2;
+  tableArray = [];
+  for (let i = 0; i < responseArray.length; i++) {
+    const item = responseArray[i];
+    if (!item.delete) {
+      tableArray.push(item);
+      let itemCellClass = 'intensCell align-middle';
+      let qttyCellClass = 'align-middle qttyCellStandard';
+      let tableRowClass = 'standardRow';
+      if (item.acquired) {
+        itemCellClass += ' checkedTd';
+        qttyCellClass += ' checkedTd';
+        tableRowClass += ' checkedRow';
+      }
+      tableBody.innerHTML += `
+          <tr class="${tableRowClass}">
+            <td class= "${itemCellClass}" onclick="markAcquiredItem(this.parentElement)">
+              ${createCellOfItemsContent(
+                item.item,
+                item.itemDescription,
+                item.acquired,
+                item.inEdition
+              )}
+            </td>
+            <td class= "${qttyCellClass}">
+              ${createCellOfQttyContent(item.quantity, item.unity, item.inEdition)}
+            </td>
+            <td class="align-middle">
+              ${createDeleteBtn()}
+            </td>
+            <td class="align-middle">${editAndConfirmEditionBtns(
+              item.inEdition,
+              item.acquired
+            )} </td>
+          </tr>
+        `;
+      if (item.inEdition) {
+        tableBody.parentElement.rows[i + 1].deleteCell(2);
+        tableBody.parentElement.rows[i + 1].cells[1].colSpan = 2;
+      }
     }
   }
 }
@@ -172,8 +180,10 @@ function createDeleteBtn() {
 
 function removeItem(deleteBtnReference) {
   const indexOfRow = deleteBtnReference.parentNode.parentNode.rowIndex;
-  document.getElementById('listTable').deleteRow(indexOfRow);
-  arrayOfItems.splice(indexOfRow - 1, 1);
+  const productIndex = indexOfRow - 1;
+  const item = tableArray[productIndex];
+  editItemProperties(item.id, { delete: true });
+  tableArray.splice(productIndex, 1);
 }
 function editAndConfirmEditionBtns(editState, acquiredState) {
   if (acquiredState) {
@@ -205,16 +215,16 @@ function editAndConfirmEditionBtns(editState, acquiredState) {
 
 function markAcquiredItem(rowReference) {
   const productIndex = rowReference.rowIndex - 1;
-  if (!arrayOfItems[productIndex].inEdition) {
-    arrayOfItems[productIndex].acquired = !arrayOfItems[productIndex].acquired;
-    renderTableOfItems('listTableBody');
+  const item = tableArray[productIndex];
+  if (!item.inEdition) {
+    editItemProperties(item.id, { acquired: !item.acquired });
   }
 }
 const isEditionInputEmpty = () => document.getElementById('inputEditItemName').value.trim() === '';
 
 function isEditedInputDuplicate(productIndex) {
   const editedItemName = document.getElementById('inputEditItemName').value;
-  return arrayOfItems.some((products, index) => {
+  return tableArray.some((products, index) => {
     if (index != productIndex) {
       return products.item === editedItemName.trim();
     }
@@ -229,16 +239,38 @@ function validateEditedItems(rowReference) {
 
 function makeItemEditable(rowReference) {
   const productIndex = rowReference.rowIndex - 1;
-  arrayOfItems[productIndex].inEdition = !arrayOfItems[productIndex].inEdition;
-  renderTableOfItems('listTableBody');
+  editItemProperties(tableArray[productIndex].id, { inEdition: true });
 }
 
 function confirmEdition(rowReference) {
-  const item = arrayOfItems[rowReference.rowIndex - 1];
-  item.item = document.getElementById('inputEditItemName').value;
-  item.itemDescription = document.getElementById('inputEditItemDescription').value;
-  item.quantity = document.getElementById('EditQtty').value;
-  item.unity = document.getElementById('selectInputUnity').value;
-  item.inEdition = false;
-  renderTableOfItems('listTableBody');
+  const productIndex = rowReference.rowIndex - 1;
+  const editedItemObject = {
+    item: document.getElementById('inputEditItemName').value.trim(),
+    itemDescription: document.getElementById('inputEditItemDescription').value.trim(),
+    quantity: document.getElementById('EditQtty').value,
+    unity: document.getElementById('selectInputUnity').value,
+    acquired: false,
+    inEdition: false,
+  };
+  editItemProperties(tableArray[productIndex].id, editedItemObject);
+}
+
+function setLoaderState(isEnabled) {
+  const display = isEnabled ? 'block' : 'none';
+  document.getElementById('loading').style.display = display;
+}
+
+function refreshTable() {
+  setLoaderState(true);
+  listItems().then((data) => renderTableOfItems('listTableBody', data));
+  setLoaderState(false);
+}
+window.addEventListener('load', refreshTable);
+
+function createNewItem(newItem) {
+  createItem(newItem).then(refreshTable);
+}
+
+function editItemProperties(itemId, propertiesObject) {
+  updateItem(itemId, propertiesObject).then(refreshTable);
 }
