@@ -4,19 +4,22 @@
 
 - Criar uma funcionalidade HTML utilizando os fundamentos básicos de HTML, Js e CSS.
 - Aprender sobre a manipulação de elemnetos HTML utilizando Js.
+- Aplicação do framework web Bootstrap para estilização e tratamento de responsividade
+- Integrar a lista de compras com uma API
 
 ## Descrição do Projeto:
 
-Criação de uma lista de compras em HTML (user side) que permita ao usuário adicionar e remover itens da
+Criação de uma lista de compras em HTML que permita ao usuário adicionar, remover e editar itens da
 lista. O caminho escolhido para gerar esta lista foi criando uma tabela dinâmica em HTML.
 O objetivo é entregar ao final do projeto uma lista de compras com estética agradável e usabilidade boa.
 
-## Notas sobre a primeira versão (atual) :
+## Notas:
 
-Na primeira versão foram trabalhados elementos básicos do projeto, como a criação da tabela dinâmica com os campos item, quantidade e botão "delete".
-A primiera versão ainda não paresenta resposnividade e também não possui validação de entradas nulas ou repetidas. Os dados gerados pelo usuário também não serão salvos em um branco de dados.
-Estas características serão trabalhadas nas próximas versões da lista.
-
+ - Na primeira etapa do projeto foram trabalhados elementos os elementos básicos, como a criação da tabela dinâmica com os campos item, quantidade e botão "delete".
+   Nesta etapa não foi trabalhada a resposnividade e a validação de entradas nulas ou repetidas.
+ - Na segunda etapa do projeto foi tratada a responsividade da aplicação utilizando Bootstrap e a validação de entradas vazias ou duplicadas.
+ - Na terceira etapa do projeto foram adicionadas as funcionalidades de marcar um item como adquirido, e também permitir ao usuário editar um item na lista. Para     cumprir esses requisitos foi necessário salvar os dados do usuário como um objeto e modificar a lógica de renderização para que fosse ditada pelos estados do       dado, ex: A lógica de renderização quando marcamos um objeto como adqirido (estilo do texto, cor da linha, etc) é ditada pela propriedade `ìsAcquired` do objeto     que representa um item na lista.
+ - Na quarta etapa do projeto foi tratada a integração da lista com uma API. A API foi desenvolvida pelo mentor Cassios Marques e hosedada no Heroku.
 ## Link para acessar gitpage do projeto:
 
 https://borgesgfj.github.io/lista-de-compras-interativa/
